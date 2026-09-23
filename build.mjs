@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
-const origin='https://zhengtang-metal-panels.jinantongwei481950.chatgpt.site';
+const origin='https://tangzhengpanels.com';
 const template=fs.readFileSync('src/template.html','utf8');
 const renderer=fs.readFileSync('src/render.js','utf8');
 const translation=fs.readFileSync('dist/translations.js','utf8');
