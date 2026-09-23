@@ -1,3 +1,4 @@
 work/
 .sites-runtime/
+.openai/
 .DS_Store
