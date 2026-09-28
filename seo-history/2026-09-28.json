@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-28",
+  "property": "sc-domain:tangzhengpanels.com",
+  "comparison": "First weekly baseline. The property and sitemap were initially configured during the previous week.",
+  "search_console": {
+    "range": "Google Search Console default 3 months; available data shown for 2026-09-22 through 2026-09-25",
+    "clicks": 0,
+    "impressions": 0,
+    "ctr": "0%",
+    "average_position": 0,
+    "top_queries": [],
+    "indexed_pages": null,
+    "not_indexed_pages": null,
+    "indexing_note": "Google is still processing indexing data and asks to check again in about one day.",
+    "sitemap": {
+      "url": "https://tangzhengpanels.com/sitemap.xml",
+      "submitted": "2026-09-24",
+      "last_read": "2026-09-27",
+      "status": "Success",
+      "discovered_pages_before_this_deployment": 12
+    }
+  },
+  "published_article": {
+    "title": "How to Choose Insulated Decorative Metal Panels for Exterior Walls",
+    "url": "https://tangzhengpanels.com/en/blog/how-to-choose-insulated-decorative-metal-panels/",
+    "primary_keyword": "how to choose insulated decorative metal panels",
+    "supporting_keywords": ["insulated decorative metal panels", "exterior wall metal panels", "metal carved panel buyer guide"]
+  }
+}
