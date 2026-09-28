@@ -2,3 +2,5 @@ work/
 .sites-runtime/
 .openai/
 .DS_Store
+.vercel
+.env*
