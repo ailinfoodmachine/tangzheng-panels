@@ -31,13 +31,22 @@ swatches.forEach(button=>button.addEventListener('click',()=>{
 
 const catalogFilters=Array.from(document.querySelectorAll('.catalog-filter'));
 const sampleChoices=Array.from(document.querySelectorAll('.sample-choice'));
+const selectedSamples=new Map();
+const selectionLabels={zh:['已选','款'],en:['Selected','items'],ar:['تم الاختيار','منتجات'],ru:['Выбрано','поз.']};
 catalogFilters.forEach(button=>button.addEventListener('click',()=>{
  catalogFilters.forEach(item=>item.classList.remove('is-active'));button.classList.add('is-active');
  const group=button.dataset.group;
  document.querySelectorAll('.sample-card').forEach(card=>{card.hidden=group!=='all'&&card.dataset.group!==group});
 }));
 sampleChoices.forEach(button=>button.addEventListener('click',()=>{
- sampleChoices.forEach(item=>item.closest('.sample-card')?.classList.remove('is-selected'));
- button.closest('.sample-card')?.classList.add('is-selected');
- selectedStyle=button.dataset.style;selectedCode=button.dataset.code;selectedColour='';updateSelection();
+ const key=`${button.dataset.style}|${button.dataset.code}`;
+ const card=button.closest('.sample-card');
+ if(selectedSamples.has(key)){selectedSamples.delete(key);card?.classList.remove('is-selected');button.setAttribute('aria-pressed','false')}
+ else{selectedSamples.set(key,{style:button.dataset.style,code:button.dataset.code});card?.classList.add('is-selected');button.setAttribute('aria-pressed','true')}
+ if(!selectionValue||!enquiry)return;
+ const items=Array.from(selectedSamples.values());
+ const label=selectionLabels[document.documentElement.lang]||selectionLabels.en;
+ selectionValue.textContent=items.length?`${label[0]} ${items.length} ${label[1]} · ${items.map(item=>item.code).join(' · ')}`:enquiry.dataset.empty||'Choose one or more models';
+ const subject=items.length?`${enquiry.dataset.prefix} — ${items.map(item=>`${item.code} ${item.style}`).join(' | ')}`:`${enquiry.dataset.prefix} catalogue enquiry`;
+ enquiry.href=`mailto:${enquiry.dataset.email}?subject=${encodeURIComponent(subject)}`;
 }));
