@@ -10,6 +10,7 @@ const products=Array.from(document.querySelectorAll('.product-choice'));
 const swatches=Array.from(document.querySelectorAll('.swatch'));
 const selectionValue=document.querySelector('.selection-value');
 const enquiry=document.querySelector('.selection-enquiry');
+const enquiryWhatsApp=document.querySelector('.selection-whatsapp');
 let selectedStyle=products[0]?.dataset.style||'';
 let selectedCode=products[0]?.dataset.code||'';
 let selectedColour=swatches[0]?.dataset.colour||'';
@@ -49,4 +50,5 @@ sampleChoices.forEach(button=>button.addEventListener('click',()=>{
  selectionValue.textContent=items.length?`${label[0]} ${items.length} ${label[1]} · ${items.map(item=>item.code).join(' · ')}`:enquiry.dataset.empty||'Choose one or more models';
  const subject=items.length?`${enquiry.dataset.prefix} — ${items.map(item=>`${item.code} ${item.style}`).join(' | ')}`:`${enquiry.dataset.prefix} catalogue enquiry`;
  enquiry.href=`mailto:${enquiry.dataset.email}?subject=${encodeURIComponent(subject)}`;
+ if(enquiryWhatsApp){const message=items.length?`TANGZHENG enquiry: ${items.map(item=>`${item.code} ${item.style}`).join(' | ')}`:'TANGZHENG catalogue enquiry';enquiryWhatsApp.href=`https://wa.me/${enquiryWhatsApp.dataset.wa}?text=${encodeURIComponent(message)}`}
 }));

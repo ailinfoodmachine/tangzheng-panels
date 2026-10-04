@@ -48,6 +48,6 @@ for(const m of markets){
 }
 const marketUrls=markets.map(m=>`${origin}/${m.lang}/markets/${m.slug}/`);
 const sitemapUrls=[...Object.keys(catalog.languages).map(l=>`${origin}/${l}/`),`${origin}/en/blog/${articleSlug}/`,...marketUrls];
-fs.writeFileSync('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+sitemapUrls.map(url=>`<url><loc>${url}</loc></url>`).join('')+'</urlset>\n');
+fs.writeFileSync('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+sitemapUrls.map(url=>`<url><loc>${url}</loc><lastmod>2026-10-04</lastmod></url>`).join('')+'</urlset>\n');
 fs.writeFileSync('dist/robots.txt',`User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
 console.log('Built 12 fully rendered language pages, one English guide, root, sitemap and robots.txt');
