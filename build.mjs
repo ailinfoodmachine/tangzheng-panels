@@ -6,6 +6,7 @@ const renderer=fs.readFileSync('src/render.js','utf8');
 const translation=fs.readFileSync('dist/translations.js','utf8');
 const catalog=vm.runInNewContext(translation+';({languages,translations})');
 const articleSlug='how-to-choose-insulated-decorative-metal-panels';
+const renovationArticleSlug='insulated-decorative-wall-panels-exterior-renovation';
 const escape=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
 for(const lang of Object.keys(catalog.languages)){
  const nodes={};const node=k=>nodes[k]??={innerHTML:'',textContent:'',setAttribute(){},addEventListener(){}};
@@ -27,13 +28,16 @@ for(const lang of Object.keys(catalog.languages)){
  html=html.replace('</head>',`<link rel="canonical" href="${origin}/${lang}/">${alternates}<link rel="alternate" hreflang="x-default" href="${origin}/en/"></head>`);
  const links=Object.entries(catalog.languages).map(([l,label])=>`<a href="/${l}/" lang="${l}" hreflang="${l}">${label}</a>`).join(' · ');
  html=html.replace('</footer>',`</footer><nav class="language-links" aria-label="${escape(t.lang)}">${links}</nav>`);
- if(lang==='en')html=html.replace('</main>',`<section class="section guide-promo" aria-labelledby="guide-heading"><p class="eyebrow">BUYER'S GUIDE</p><h2 id="guide-heading">How to choose insulated decorative metal panels</h2><p>Compare project conditions, wall assemblies, finishes, samples and supplier documentation before you request a quotation.</p><a class="text-link" href="/en/blog/${articleSlug}/">Read the selection guide →</a></section></main>`);
+ if(lang==='en')html=html.replace('</main>',`<section class="section guide-promo" aria-labelledby="guide-heading"><p class="eyebrow">BUYER'S GUIDES</p><h2 id="guide-heading">Plan the right panel system for your project</h2><p>Compare project conditions, wall assemblies, finishes, samples and supplier documentation before you request a quotation.</p><a class="text-link" href="/en/blog/${articleSlug}/">Panel selection guide →</a><br><a class="text-link" href="/en/blog/${renovationArticleSlug}/">Exterior renovation checklist →</a></section></main>`);
  fs.mkdirSync('dist/'+lang,{recursive:true});fs.writeFileSync('dist/'+lang+'/index.html',html);
  if(lang==='en')fs.writeFileSync('dist/index.html',html);
 }
 const article=fs.readFileSync('src/article-en.html','utf8');
 fs.mkdirSync(`dist/en/blog/${articleSlug}`,{recursive:true});
 fs.writeFileSync(`dist/en/blog/${articleSlug}/index.html`,article);
+const renovationArticle=fs.readFileSync('src/article-renovation-en.html','utf8');
+fs.mkdirSync(`dist/en/blog/${renovationArticleSlug}`,{recursive:true});
+fs.writeFileSync(`dist/en/blog/${renovationArticleSlug}/index.html`,renovationArticle);
 const markets=[
  {lang:'en',slug:'saudi-arabia',dir:'ltr',title:'Insulated Exterior Wall Panels for Saudi Arabia',description:'TANGZHENG metal carved panels and insulated exterior wall panels for Saudi Arabian villas, warehouses and renovation projects.',heading:'Exterior wall panels for hot-climate projects in Saudi Arabia',lead:'Explore lightweight decorative metal panels that combine an embossed coated-metal surface, insulation core and inner backing. Select the finish and model first, then confirm thermal, fire, wind-load and installation requirements for the project.',keywords:['insulated exterior wall panels Saudi Arabia','decorative metal wall panels','villa exterior cladding','warehouse insulated wall panels'],uses:['Villa and low-rise exterior renovation','Warehouse and workshop wall systems','Modular and prefabricated buildings','Decorative façade upgrades'],checks:['Required thermal performance and wall assembly','Fire-test documentation required by the project','Panel thickness, metal facing and core specification','Wind load, fixings, trims and joint treatment'],faq:[['Are these panels suitable for Saudi Arabia?','They may suit hot-climate wall projects when the selected assembly meets the project’s thermal, fire, structural and weather-resistance requirements. Confirm the complete specification before ordering.'],['Can I request samples?','Yes. Send the texture code, project type, quantity and delivery city to request product information and samples.']]},
  {lang:'ar',slug:'uae',dir:'rtl',title:'ألواح جدران خارجية معدنية معزولة في الإمارات',description:'ألواح TANGZHENG المعدنية الزخرفية والمعزولة للجدران الخارجية والمشاريع السكنية والتجارية في الإمارات.',heading:'ألواح زخرفية ومعزولة لمشاريع الجدران في الإمارات',lead:'مجموعة من الألواح المعدنية المزخرفة بخامات الحجر والطوب والخشب. يجب تأكيد متطلبات الحريق والعزل والرياح والتركيب للنظام الكامل قبل الطلب.',keywords:['ألواح جدران خارجية معزولة','ألواح معدنية زخرفية','كسوة واجهات الإمارات','ألواح عازلة للمباني'],uses:['واجهات الفلل والمباني منخفضة الارتفاع','الجدران الخارجية للمستودعات والورش','المباني الجاهزة والوحدات النمطية','تجديد الواجهات'],checks:['تصنيف الحريق المطلوب للنظام الكامل','الأداء الحراري وسماكة اللوح','مقاومة الرياح والتثبيت','الزوايا والحواف ومعالجة الفواصل'],faq:[['هل تصلح الألواح لجميع المباني؟','يعتمد ذلك على نوع المبنى والارتفاع ومتطلبات الدفاع المدني والمواصفات المعتمدة للمشروع. يجب مراجعة النظام الكامل قبل الاستخدام.'],['كيف أطلب عينة؟','أرسل رقم الموديل ونوع المشروع والكمية ومدينة التسليم عبر البريد الإلكتروني أو واتساب.']]},
@@ -47,7 +51,7 @@ for(const m of markets){
  fs.writeFileSync(`${path}/index.html`,html);
 }
 const marketUrls=markets.map(m=>`${origin}/${m.lang}/markets/${m.slug}/`);
-const sitemapUrls=[...Object.keys(catalog.languages).map(l=>`${origin}/${l}/`),`${origin}/en/blog/${articleSlug}/`,...marketUrls];
-fs.writeFileSync('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+sitemapUrls.map(url=>`<url><loc>${url}</loc><lastmod>2026-10-04</lastmod></url>`).join('')+'</urlset>\n');
+const sitemapUrls=[...Object.keys(catalog.languages).map(l=>`${origin}/${l}/`),`${origin}/en/blog/${articleSlug}/`,`${origin}/en/blog/${renovationArticleSlug}/`,...marketUrls];
+fs.writeFileSync('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+sitemapUrls.map(url=>`<url><loc>${url}</loc><lastmod>2026-10-05</lastmod></url>`).join('')+'</urlset>\n');
 fs.writeFileSync('dist/robots.txt',`User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
-console.log('Built 12 fully rendered language pages, one English guide, root, sitemap and robots.txt');
+console.log('Built 12 fully rendered language pages, two English guides, root, sitemap and robots.txt');
