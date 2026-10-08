@@ -73,4 +73,17 @@ for(const item of productCatalog){
 const sitemapUrls=[...Object.keys(catalog.languages).map(l=>`${origin}/${l}/`),`${origin}/en/blog/${articleSlug}/`,`${origin}/en/blog/${renovationArticleSlug}/`,...marketUrls,...productUrls];
 fs.writeFileSync('dist/sitemap.xml','<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+sitemapUrls.map(url=>`<url><loc>${url}</loc><lastmod>2026-10-05</lastmod></url>`).join('')+'</urlset>\n');
 fs.writeFileSync('dist/robots.txt',`User-agent: *\nAllow: /\nSitemap: ${origin}/sitemap.xml\n`);
+const globalContact=`<aside class="global-contact" aria-label="TANGZHENG contact details"><div><p class="eyebrow">PROJECT ENQUIRY</p><h2>Contact TANGZHENG</h2><p><a href="tel:+8615588869611">+86 155 8886 9611</a><br><a href="mailto:15588869611@163.com">15588869611@163.com</a></p><div class="global-contact-actions"><a class="button" href="https://wa.me/8615588869611" target="_blank" rel="noopener noreferrer">WhatsApp <span>↗</span></a><a class="catalogue-download" href="/assets/TANGZHENG-English-Catalogue.pdf" target="_blank" rel="noopener">Download English catalogue (PDF) →</a></div></div><a class="global-contact-qr" href="https://wa.me/8615588869611" target="_blank" rel="noopener noreferrer"><img src="/assets/contact-qr.png" width="160" height="160" alt="Scan to contact TANGZHENG on WhatsApp at +86 155 8886 9611"><strong>SCAN FOR WHATSAPP</strong></a></aside>`;
+function addContactToHtml(dir){
+ for(const entry of fs.readdirSync(dir,{withFileTypes:true})){
+  const path=`${dir}/${entry.name}`;
+  if(entry.isDirectory())addContactToHtml(path);
+  else if(entry.name.endsWith('.html')){
+   let html=fs.readFileSync(path,'utf8');
+   if(!html.includes('class="global-contact"'))html=html.replace('</body>',`${globalContact}</body>`);
+   fs.writeFileSync(path,html);
+  }
+ }
+}
+addContactToHtml('dist');
 console.log(`Built 12 language pages, two English guides, ${productCatalog.length} English product pages, sitemap and robots.txt`);
